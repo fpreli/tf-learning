@@ -108,7 +108,7 @@ module "nat" {
 }
 
 resource "google_compute_firewall" "fw_health_check" {
-  name    = "fw-health-check"
+  name    = "${var.input_prefix}-health-check"
   network = google_compute_network.tf_vpc.id
 
   allow {
@@ -122,7 +122,7 @@ resource "google_compute_firewall" "fw_health_check" {
 
 resource "google_compute_instance" "tf_vm_client" {
 
-  name         = "my-client"
+  name         = "${var.input_prefix}-client"
   machine_type = "e2-micro"
   zone         = local.gce_zone
 
@@ -154,7 +154,7 @@ resource "google_compute_instance" "tf_vm_client" {
 
 resource "google_compute_instance" "my_vm_client_manual" {
 
-  name         = "my-client-manual"
+  name         = "${var.input_prefix}-client-manual"
   machine_type = "e2-micro"
   zone         = local.gce_zone
 
@@ -179,7 +179,7 @@ data "google_netblock_ip_ranges" "hcs-range" {
 }
 
 resource "google_storage_bucket" "default" {
-  name                        = "${google_compute_network.tf_vpc.project}-tfstate"
+  name                        = "${var.input_prefix}-tfstate"
   project                     = google_compute_network.tf_vpc.project
   location                    = "EU"
   uniform_bucket_level_access = true
